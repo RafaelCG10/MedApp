@@ -21,7 +21,7 @@ const deleteDoctor = async(id) => {
 }
 
 const getDoctorByLogin = async(login) => {
-    return await doctorRepository.getDoctorByLogin({"login": login});
+    return await doctorRepository.getDoctorByLogin(login);
 }
 
 const doctorService = {

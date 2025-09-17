@@ -41,6 +41,7 @@ const deleteDoctor = async (id) => {
     }
 }
 
+//login
 const getDoctorByLogin = async (login) => {
     try {
         return await Doctor.findOne({"login": login});
