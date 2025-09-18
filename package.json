@@ -17,5 +17,13 @@
     "mongoose": "^8.17.1",
     "multer": "^2.0.2",
     "pdfkit": "^0.17.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RafaelCG10/MedApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RafaelCG10/MedApp/issues"
+  },
+  "homepage": "https://github.com/RafaelCG10/MedApp#readme"
 }
