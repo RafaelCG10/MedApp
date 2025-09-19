@@ -22,7 +22,7 @@ const upload = multer({storage: storage});
 router.post('/uploadPrescriptions/:id', upload.single('file'), async(req, res) => {
     try {
         const {id} = req.params;
-        let prescription = await prescriptionService.getPrescription(id);
+        let prescription = await prescriptionService.getPrescription(id); //não remover o let, é necessário para atualizar a variável
 
         const file = "./MedApp/src/prescriptions/" + req.file.originalname;
         prescription = await prescriptionService.updatePrescription(id, {file});
