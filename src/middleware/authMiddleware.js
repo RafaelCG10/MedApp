@@ -10,7 +10,8 @@ function verifyToken(req, res, next) {
         req.doctorId = decoded.doctorId;
         next();
     } catch (error) {
-        res.status(401).json({message:'Ivalid token.'});
+        console.error('Token verification error:', error);
+        res.status(401).json({message:'Invalid token.'});
     }
 };
 
