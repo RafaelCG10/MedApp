@@ -42,6 +42,49 @@ export default function PrescriptionCreate(){
         } catch (error) {
             setError(error);
         }
+    };
+
+    const showFile = async (id: any) => {
+        try {
+            const res = await fetch('127.0.0.1:3001/readPrescription/' + id, {
+                method: 'GET',
+                headers: {
+                    'Authorization': sessionStorage.getItem("token") || ''
+                },
+            });
+
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = id + '.pdf';
+            link.click();
+        } catch (error) {
+            setError(error);
+        }
+    };
+
+    const generatePrescription = async (id: any) => {
+        try {
+            const res = await fetch('127.0.0.1:3001/generatePrescription/' + id, {
+                method: 'GET',
+                headers: {
+                    'Authorization': sessionStorage.getItem("token") || ''
+                },
+            });
+
+            if(!res.ok)
+                throw new Error(await res.text());
+
+            const content = await res.json();
+            if (content._id){
+                window.location.reload();
+            }else{
+                setError(content.error);
+            }
+        } catch (error) {
+            setError(error)
+        }
     }
 
     return(
@@ -63,8 +106,10 @@ export default function PrescriptionCreate(){
                            <td className='border border-slate-300 text-center'>{prescription.medicine}</td> 
                            <td className='border border-slate-300 text-center'>{prescription.dosage}</td> 
                            <td className='border border-slate-300 text-center'>{prescription.instructions}</td> 
-                           <td className='border border-slate-300 text-center'><input type='file' name='file' onChange={(e) => setFile(e.target.files?.[0])}/></td>
-                           {!prescription.file && <td className='border border-slate-300 text-center'><button onClick={(e) => { uploadPrescription(prescription._id); }} className='bg-orange-500 p-2 inline-block text-white text-sm'>Upload</button></td>} 
+                           {!prescription.file && <td className='border border-slate-300 text-center'><input type='file' name='file' onChange={(e) => setFile(e.target.files?.[0])}/></td>}
+                           {!prescription.file && <td className='border border-slate-300 text-center'><button onClick={(e) => { uploadPrescription(prescription._id); }} className='bg-orange-500 p-2 inline-block text-white text-sm'>Upload</button></td>}
+                           {!prescription.file && <td className='border border-slate-300 text-center'><button onClick={(e) => { generatePrescription(prescription._id); }} className='bg-orange-500 p-2 inline-block text-white text-sm'>Gerar Prescrição</button></td>}
+                           {prescription.file && <td className='border border-slate=300 text-center'><button onClick={(e) => showFile(prescription._id)} className='bg-green-500 p-2 inline-block text-white text-sm'>Ver Arquivo</button></td>} 
                         </tr>
                     ))}
                 </tbody>
